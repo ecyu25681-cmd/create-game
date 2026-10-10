@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#101f24">
+  <meta name="description" content="勇者が帰った、そのあとに。掃除と仕掛けでダンジョンを立て直す、7日間の小さな経営ゲーム。">
+  <title>勇者のあとしまつ — 閉店後から始まる冒険</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23132125'/%3E%3Cpath d='M44 9L25 38' stroke='%23dab378' stroke-width='7'/%3E%3Cpath d='M25 30L41 40L28 57L10 45Z' fill='%2389cfa6'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <a class="brand" href="#" id="brand" aria-label="遊び方を開く"><span class="brand-mark">✦</span><span>勇者のあとしまつ<small>DUNGEON AFTER HOURS</small></span></a>
+      <div class="header-note"><i></i> 魔王軍・ダンジョン再生事業部</div>
+      <nav><button class="icon-button" id="sound" aria-label="効果音をオン" title="効果音">♪<span>OFF</span></button><button class="icon-button" id="help" aria-label="遊び方">？</button><button class="icon-button" id="restart" aria-label="最初からやり直す" title="最初から">↻</button></nav>
+    </header>
+    <main>
+      <section class="dashboard" aria-label="経営状況">
+        <div class="dayblock"><span class="eyebrow">再オープンまでの7日間</span><div><strong id="day">01</strong><span>/ 07 DAYS</span><b id="phase">開店準備</b></div></div>
+        <div class="stats"><div><span>所持金</span><strong><i class="coin">●</i> <span id="gold">65</span><small>G</small></strong></div><div><span>資材</span><strong><i class="material">◆</i> <span id="material">3</span><small>個</small></strong></div><div><span>行動力</span><strong><i class="energy">ϟ</i> <span id="energy">24</span><small id="maxenergy">/ 24</small></strong></div><div><span>お店の評判</span><strong><i class="star">★</i> <span id="rating">—</span><small>/ 5</small></strong></div></div>
+      </section>
+      <div class="workspace">
+        <section class="map-panel">
+          <div class="map-heading"><div><span class="eyebrow">THE DUNGEON</span><h1>こもれびの地下迷宮</h1></div><span class="phase-badge" id="mapBadge"><i></i> 準備中 · 時間制限なし</span><button id="zoomMap" class="zoom-map" aria-pressed="false">拡大 ＋</button></div>
+          <div class="canvas-wrap" id="canvasWrap"><canvas id="game" width="1080" height="600" tabindex="0" aria-label="ダンジョン。矢印キーでマスを移動、Enterで道具を使用。1から7で道具を選択。"></canvas><div class="room-label r1">01 <span>はじまりの間</span></div><div class="room-label r2">02 <span>いたずら回廊</span></div><div class="room-label r3">03 <span>ごほうびの間</span></div><div id="tooltip" class="tooltip" hidden></div><div class="night-overlay" id="nightOverlay" hidden><span><i></i> 冒険者が探索中</span><button id="pause">一時停止</button><button id="speed">速度 ×1</button></div></div>
+          <div class="map-footer"><span><i class="dot mint"></i> <span id="mapHint">光る落とし物をクリックして、あとしまつ。</span></span><button id="undo" disabled>↶ ひとつ戻す</button></div>
+          <div class="clean-section"><div><span>本日の清掃</span><strong id="cleanText">0 / 13</strong></div><div class="progress"><i id="cleanBar"></i></div><span id="cleanBonus">全回収で営業後に＋15G</span></div>
+        </section>
+        <aside class="sidebar">
+          <section class="tools-panel"><div class="section-heading"><h2 id="toolTitle">道具と仕掛け</h2><span id="toolSubtitle">選んで、マスに置く</span></div><div id="tools" class="tools"></div><div class="tool-detail" id="toolDetail"></div><button id="upgrade" class="upgrade"><span>↑ 作業かばんを拡張<small>行動力の上限 ＋4</small></span><b>40G</b></button></section>
+          <section class="night-log" id="nightLog" hidden><div class="section-heading"><h2>冒険の実況</h2><span id="visitorCount"></span></div><div id="heroCards"></div><div id="eventLog" class="events" aria-live="polite"></div></section>
+          <button id="startNight" class="primary night-button"><span>☾</span><span>夜の営業をはじめる<small>準備ができたら、冒険者を迎えよう</small></span><b>→</b></button>
+          <div class="autosave" id="saveStatus">◇ このブラウザに自動セーブ</div>
+        </aside>
+      </div>
+      <section class="brief"><div class="brief-icon">✉</div><div><span class="eyebrow" id="briefLabel">魔王さまからの業務連絡</span><h2 id="briefTitle"></h2><p id="briefText"></p></div><div class="reservation"><span>今夜のご予約</span><strong id="reservation"></strong><small id="guestCount">3名様</small></div></section>
+      <footer class="bottom"><span>勇者が帰った、そのあとに。</span><span>1–7 道具切替 <b>·</b> 矢印＋Enter マス操作 <b>·</b> Space 営業中の一時停止</span></footer>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="modal-backdrop" id="modalBackdrop" hidden><section class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" tabindex="-1"></section></div>
+  <script src="core.js"></script><script src="app.js"></script>
+</body></html>
